@@ -14,10 +14,11 @@ class SlidingRadialList extends StatelessWidget {
     this.controller,
   });
 
-  List<Widget> _radialListItems() {
+  List<Widget> _radialListItems(BuildContext context) {
     int index = 0;
     return radialList.items.map((RadialListItemViewModel viewModel) {
       final listItem = _radialListItem(
+        context,
         viewModel,
         controller.getItemAngle(index),
         controller.getItemOpacity(index),
@@ -27,11 +28,11 @@ class SlidingRadialList extends StatelessWidget {
     }).toList();
   }
 
-  Widget _radialListItem(RadialListItemViewModel viewModel, double angle, double opacity) {
+  Widget _radialListItem(BuildContext context, RadialListItemViewModel viewModel, double angle, double opacity) {
     return new Transform(
       transform: new Matrix4.translationValues(
         40.0,
-        334.0,
+        MediaQuery.of(context).size.height / 2,
         0.0,
       ),
       child: new RadialPosition(
@@ -53,7 +54,7 @@ class SlidingRadialList extends StatelessWidget {
       animation: controller,
       builder: (BuildContext context, Widget child) {
         return new Stack(
-          children: _radialListItems(),
+          children: _radialListItems(context),
         );
       },
     );
